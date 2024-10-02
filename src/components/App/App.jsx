@@ -1,16 +1,18 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './App.css';
-import Header from '../Header/Header.jsx'
-import Footer from '../Footer/Footer.jsx'
-import GuestList from '../GuestList/GuestList.jsx';
-import DinnerSupplies from '../DinnerSupplies/DinnerSupplies.jsx';
-import PartyLeader from '../PartyLeader/PartyLeader.jsx';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import DinnerSupplies from '../DinnerSupplies/DinnerSupplies';
+import GuestForm from '../GuestForm/GuestForm';
+import GuestList from '../GuestList/GuestList';
+import PartyLeader from '../PartyLeader/PartyLeader';
+
+
 
 function App() {
   let [guestList, setGuestList] = useState([]);
-  let [newGuestName, setNewGuestName] = useState('');
-  let [newGuestMeal, setNewGuestMeal] = useState('false');
+ 
 
   //On load, get guests
   useEffect(() => {
@@ -29,46 +31,28 @@ function App() {
   }
 
 
-  const addGuest = () => {
-    axios.post('/api/guests', { name: newGuestName, kidsMeal: newGuestMeal })
-      .then(response => {
-        // clear inputs
-        setNewGuestName('');
-        setNewGuestMeal(false);
-
-        getGuests();
-      })
-      .catch(err => {
-        alert('Error Adding Guest');
-        console.log(err);
-      })
-  };
+  
 
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (newGuestName) {
-      addGuest();
-    }
-    else {
-      alert('The new guest needs a name!');
-    }
-  }
+  
 
-  console.log(newGuestMeal)
+  //console.log(newGuestMeal)
   return (
     <div className="App">
       <Header/>
-
-      <PartyLeader/>
      
-      <GuestList guestList={guestList}/> {/*this passes the guestlist down */}
-    
-      <DinnerSupplies guestList={guestList}/>
-
-      <Footer/>
+      
+      <GuestList guestList = {guestList}
+                 getGuests = {getGuests}    />
+      <PartyLeader guestList = {guestList} />
+          
+      <GuestForm getGuests={getGuests}  />
+      
+      <DinnerSupplies guestList = {guestList.length}/>
+     <Footer/>
     </div>
   );
 }
 
 export default App;
+

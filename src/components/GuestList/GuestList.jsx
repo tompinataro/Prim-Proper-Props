@@ -1,26 +1,39 @@
-function GuestList({guestList}){
-                // this catches the handoff from app.jsx where we instantiated it!
-    return (
+import React from 'react';
+import axios from 'axios'
 
-<>    <h2>Guest List</h2>
+function GuestList(props) {
+
+  const deleteItem = (guestId) => {
+    axios.delete(`/api/guests/${guestId}`)
+      .then(response => {
+       props.getGuests();
+      })
+      .catch(error => {
+        console.log('Error', error);
+        alert('Something went wrong');
+      });
+  };
+  return (
     <table>
       <thead>
         <tr>
           <th>Name</th>
-          <th>Kid's Meal</th>
-        </tr>
+          <th>Kids Meal</th>
+        </tr> 
       </thead>
       <tbody>
-        {guestList.map(guest => (
+        {props.guestList.map((guest) => (
           <tr key={guest.id}>
             <td>{guest.name}</td>
             <td>{String(guest.kidsMeal)}</td>
+            <td>
+              <button onClick={() => deleteItem(guest.id)}> Delete
+            </button></td>
           </tr>
         ))}
       </tbody>
     </table>
-</>
-    )
+  );
 }
 
-export default GuestList
+export default GuestList;
