@@ -1,5 +1,5 @@
 function GuestList({guestList}){
-                // this catchs the handoff from app.jsx where we instantiated it!
+                // this catches the handoff from app.jsx where we instantiated it!
     return (
 
 <>    <h2>Guest List</h2>
